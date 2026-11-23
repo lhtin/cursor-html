@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家庭小课堂：壁虎为什么可以爬墙？</title>
+<style>
+  :root{
+    --green:#3fbf6f; --green-d:#23935020; --gecko:#7ccf4a; --gecko-d:#4f9e2a;
+    --sky:#e9f7ff; --sun:#ffd447; --pink:#ff7aa2; --blue:#3d8bfd; --ink:#2b3445;
+    --card:#ffffff; --wall:#f6e3c6; --wall-d:#e8cfa8; --orange:#ff9a3c;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei","Noto Sans CJK SC",sans-serif;
+    color:var(--ink);background:linear-gradient(180deg,#e9f7ff 0%,#fff8e6 60%,#effbe9 100%);line-height:1.75;font-size:17px}
+  .wrap{max-width:960px;margin:0 auto;padding:16px}
+  header.hero{position:relative;border-radius:28px;overflow:hidden;background:linear-gradient(135deg,#7bd3ff,#a6e3a1);
+    box-shadow:0 10px 30px #0001;padding:22px 20px 10px;color:#123}
+  .hero h1{margin:0;font-size:clamp(26px,6vw,44px);letter-spacing:1px;text-shadow:0 3px 0 #ffffff90}
+  .hero p.sub{margin:4px 0 10px;font-size:clamp(15px,3.6vw,19px)}
+  .tag{display:inline-block;background:#fff;color:var(--pink);font-weight:700;border-radius:99px;padding:2px 12px;font-size:14px;margin-bottom:8px}
+  .wallscene{width:100%;height:auto;display:block;border-radius:18px;margin-top:6px}
+  section.card{background:var(--card);border-radius:24px;padding:20px 20px 22px;margin:18px 0;box-shadow:0 8px 24px #0000000f;position:relative}
+  section.card h2{margin:0 0 8px;font-size:clamp(21px,4.8vw,28px);display:flex;align-items:center;gap:10px}
+  .num{flex:none;display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--sun);color:#7a4b00;font-size:20px;font-weight:800;box-shadow:0 3px 0 #e3b21f}
+  .say{background:#fff7d6;border-left:6px solid var(--sun);border-radius:12px;padding:10px 14px;margin:10px 0}
+  .say b{color:#d9480f}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+  .mini{border-radius:18px;padding:12px;text-align:center;font-size:15px}
+  .mini svg{width:72px;height:72px;display:block;margin:0 auto 4px}
+  .mini.no{background:#ffecef}
+  .mini.yes{background:#e6f8ea;outline:3px dashed var(--green)}
+  .mini strong{display:block;font-size:17px}
+  @media (max-width:600px){.grid3{grid-template-columns:1fr}.mini{display:flex;align-items:center;gap:10px;text-align:left}.mini svg{margin:0;width:56px;height:56px;flex:none}}
+
+  /* 放大镜 */
+  .zoomzone{display:grid;grid-template-columns:minmax(240px,380px) 1fr;gap:20px;align-items:center}
+  @media (max-width:700px){.zoomzone{grid-template-columns:1fr}}
+  .lens-wrap{position:relative;width:100%;max-width:360px;margin:0 auto;aspect-ratio:1/1.12}
+  .lens{position:absolute;left:0;top:0;width:88%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:14px solid #ffb53b;
+    box-shadow:0 0 0 5px #fff inset,0 8px 0 #d98b12,0 14px 30px #0002;background:#fffdf5;cursor:zoom-in}
+  .lens::after{content:"";position:absolute;left:12%;top:8%;width:30%;height:18%;border-radius:50%;background:#ffffff70;transform:rotate(-30deg);pointer-events:none}
+  .handle{position:absolute;width:16%;height:36%;right:10%;bottom:0;background:linear-gradient(90deg,#c2410c,#ea580c);border-radius:14px;transform:rotate(-45deg);transform-origin:top center;box-shadow:0 6px 0 #9a3412}
+  .lens svg{width:100%;height:100%;display:block}
+  .lvl{display:none;transform-origin:150px 150px}
+  .lvl.on{display:inline;animation:zoomIn .6s cubic-bezier(.2,.9,.3,1.3)}
+  .lvl.on.back{animation:zoomOut .5s ease-out}
+  @keyframes zoomIn{from{transform:scale(.25);opacity:0}to{transform:scale(1);opacity:1}}
+  @keyframes zoomOut{from{transform:scale(2.2);opacity:0}to{transform:scale(1);opacity:1}}
+  .steps{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+  .steps button{border:0;border-radius:99px;padding:6px 12px;background:#eef3ff;color:#345;font:inherit;font-size:14px;cursor:pointer}
+  .steps button.on{background:var(--blue);color:#fff;font-weight:700}
+  .zoominfo h3{margin:0;font-size:22px;color:var(--blue)}
+  .zoominfo .times{display:inline-block;background:#ffe3ec;color:#d6336c;border-radius:8px;padding:0 8px;font-weight:700;font-size:14px}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .btn{border:0;border-radius:16px;padding:10px 18px;font:inherit;font-weight:700;cursor:pointer;color:#fff;background:var(--green);box-shadow:0 4px 0 #23934f;transition:transform .1s}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #23934f}
+  .btn.gray{background:#94a3b8;box-shadow:0 4px 0 #64748b}
+  .btn.orange{background:var(--orange);box-shadow:0 4px 0 #d9730d}
+  .btn:disabled{opacity:.45;cursor:default}
+  .pulse{animation:pulse 1.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;stroke-width:3}50%{opacity:.35;stroke-width:6}}
+  .spark{animation:spark 1.2s ease-in-out infinite}
+  @keyframes spark{0%,100%{opacity:.2}50%{opacity:1}}
+
+  /* 滑块互动 */
+  .hangzone{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
+  @media (max-width:700px){.hangzone{grid-template-columns:1fr}}
+  .ceiling-scene{position:relative;height:250px;border-radius:20px;overflow:hidden;background:linear-gradient(#dff3ff,#f7fbff)}
+  .ceiling{position:absolute;left:0;right:0;top:0;height:34px;background:repeating-linear-gradient(90deg,#c98d57 0 40px,#b97a45 40px 42px);box-shadow:0 4px 0 #a0683a}
+  .ceiling-scene .lbl{position:absolute;top:6px;right:10px;color:#fff;font-size:13px;font-weight:700}
+  #hangGecko{position:absolute;left:50%;top:30px;width:120px;margin-left:-60px;transform-origin:50% 10%;transition:transform .5s}
+  #hangGecko.hold{animation:sway 2.5s ease-in-out infinite}
+  #hangGecko.shaky{animation:shaky .25s linear infinite}
+  #hangGecko.fall{animation:fall 1.1s cubic-bezier(.5,0,.9,.6) forwards}
+  @keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+  @keyframes shaky{0%,100%{transform:translate(-2px,0) rotate(-2deg)}50%{transform:translate(2px,3px) rotate(2deg)}}
+  @keyframes fall{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(260px) rotate(200deg)}}
+  .cushion{position:absolute;bottom:0;left:0;right:0;height:22px;background:repeating-linear-gradient(90deg,#ffd6e0 0 20px,#ffc2d1 20px 40px);border-radius:12px 12px 0 0}
+  .status{position:absolute;left:10px;bottom:30px;background:#fff;border-radius:12px;padding:4px 10px;font-weight:800;font-size:15px;box-shadow:0 3px 10px #0001}
+  input[type=range]{width:100%;height:36px;accent-color:var(--green);cursor:pointer}
+  .big{font-size:26px;font-weight:800;color:var(--green)}
+  .meter{position:relative;height:26px;border-radius:99px;background:#eef2f7;overflow:hidden;margin:6px 0 2px}
+  .meter .fill{height:100%;width:0;background:linear-gradient(90deg,#ffd447,#3fbf6f);border-radius:99px;transition:width .2s}
+  .meter .line{position:absolute;top:-2px;bottom:-2px;width:3px;background:#e03131}
+  .meter-l{display:flex;justify-content:space-between;font-size:13px;color:#667}
+  .presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .presets button{border:2px solid #cfe9d6;background:#f3fbf5;border-radius:12px;padding:4px 10px;font:inherit;font-size:14px;cursor:pointer}
+  .note{font-size:13px;color:#889}
+
+  /* 卷脚趾 */
+  .toe-svg{width:100%;max-width:640px;display:block;margin:6px auto 0;background:linear-gradient(#f2fbff,#fff);border-radius:18px}
+
+  .apply{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:700px){.apply{grid-template-columns:1fr}}
+  .apply > div{border-radius:18px;padding:14px 16px}
+  .apply .a1{background:#eef4ff}
+  .apply .a2{background:#fff1e6}
+  .apply h3{margin:0 0 6px}
+  ol.steps-list{padding-left:22px;margin:6px 0}
+  .books{width:100%;max-width:300px;display:block;margin:8px auto}
+
+  /* 问答 */
+  .q{border-radius:18px;background:#f7f9ff;padding:12px 14px;margin:12px 0}
+  .q p{margin:0 0 8px;font-weight:800}
+  .opts{display:grid;gap:8px}
+  .opt{text-align:left;border:3px solid #dbe4ff;background:#fff;border-radius:14px;padding:9px 12px;font:inherit;cursor:pointer;transition:transform .1s}
+  .opt:hover{transform:translateX(3px)}
+  .opt.right{border-color:var(--green);background:#e6f8ea}
+  .opt.wrong{border-color:#ff6b6b;background:#ffecec;animation:shake .3s}
+  @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .fb{min-height:1.6em;margin-top:6px;font-weight:700}
+  .fb.ok{color:#2b8a3e}.fb.no{color:#e03131}
+  .score{text-align:center;font-size:20px;font-weight:800;color:var(--pink)}
+  footer{text-align:center;color:#889;font-size:13px;padding:10px 0 30px}
+
+  /* 壁虎腿动画 */
+  .leg{transform-box:view-box}
+  .walk .legA{animation:legA .5s ease-in-out infinite alternate}
+  .walk .legB{animation:legB .5s ease-in-out infinite alternate}
+  .walk .wig{animation:wig .5s ease-in-out infinite alternate}
+  @keyframes legA{from{transform:rotate(-20deg)}to{transform:rotate(16deg)}}
+  @keyframes legB{from{transform:rotate(16deg)}to{transform:rotate(-20deg)}}
+  @keyframes wig{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+  .blink{animation:blink 4s infinite}
+  @keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <span class="tag">家庭小课堂 · 科学小问号</span>
+  <h1>壁虎为什么可以爬墙？</h1>
+  <p class="sub">小壁虎能在墙上跑，还能倒挂在天花板上。它的脚到底有什么秘密？我们一起来看看！</p>
+  <svg class="wallscene" viewBox="0 0 400 230" aria-label="一只壁虎在墙上爬">
+    <defs>
+      <pattern id="bricks" width="60" height="30" patternUnits="userSpaceOnUse">
+        <rect width="60" height="30" fill="#f6e3c6"/>
+        <path d="M0 0H60M0 15H60M0 30H60M30 0V15M0 15V30M60 15V30" stroke="#e8cfa8" stroke-width="2"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="230" fill="url(#bricks)"/>
+    <circle cx="350" cy="40" r="22" fill="#ffd447" opacity=".9"/>
+    <g id="heroLamp">
+      <rect x="40" y="20" width="56" height="40" rx="8" fill="#fff" stroke="#8ab" stroke-width="3"/>
+      <path d="M50 30h36M50 40h28M50 50h32" stroke="#bcd" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <path id="climbPath" d="M60,260 C120,180 40,140 140,110 S300,140 260,60 S330,-10 360,-70" fill="none"/>
+    <g>
+      <g transform="scale(.75)"><g transform="rotate(90)" class="walk" id="heroGecko"></g></g>
+      <animateMotion dur="9s" repeatCount="indefinite" rotate="auto"><mpath href="#climbPath"/></animateMotion>
+    </g>
+    <g font-size="14" fill="#7a5a2b" font-weight="700">
+      <text x="388" y="214" text-anchor="end">嗒嗒嗒，我爬上去啦！</text>
+    </g>
+  </svg>
+</header>
+
+<section class="card">
+  <h2><span class="num">1</span>是胶水？还是吸盘？</h2>
+  <p>很多小朋友会猜：壁虎脚上是不是有胶水？或者像吸盘挂钩一样吸在墙上？</p>
+  <div class="grid3">
+    <div class="mini no">
+      <svg viewBox="0 0 80 80"><path d="M28 20h24v10l6 8v30a6 6 0 0 1-6 6H28a6 6 0 0 1-6-6V38l6-8z" fill="#ffd8a8" stroke="#e8590c" stroke-width="3"/><rect x="26" y="44" width="28" height="14" rx="3" fill="#fff"/><path d="M14 14l52 52M66 14L14 66" stroke="#e03131" stroke-width="6" stroke-linecap="round"/></svg>
+      <div><strong>不是胶水</strong>壁虎脚干干净净，不黏手，走过的地方也不会留下胶。</div>
+    </div>
+    <div class="mini no">
+      <svg viewBox="0 0 80 80"><path d="M14 56q26-30 52 0z" fill="#a5d8ff" stroke="#1c7ed6" stroke-width="3"/><rect x="36" y="18" width="8" height="26" rx="4" fill="#1c7ed6"/><path d="M14 14l52 52M66 14L14 66" stroke="#e03131" stroke-width="6" stroke-linecap="round"/></svg>
+      <div><strong>不是吸盘</strong>吸盘要靠空气压着，可壁虎在粗糙的墙、甚至真空里也能贴住。</div>
+    </div>
+    <div class="mini yes">
+      <svg viewBox="0 0 80 80"><g stroke="#2f9e44" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M40 10V40M40 40L22 66M40 40L32 68M40 40L40 70M40 40L48 68M40 40L58 66"/></g><g fill="#2f9e44"><circle cx="22" cy="68" r="3"/><circle cx="32" cy="70" r="3"/><circle cx="40" cy="72" r="3"/><circle cx="48" cy="70" r="3"/><circle cx="58" cy="68" r="3"/></g><rect x="6" y="74" width="68" height="4" rx="2" fill="#adb5bd"/></svg>
+      <div><strong>是超级多的细毛！</strong>秘密藏在脚趾上，要用放大镜才能看见。</div>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="zoom">
+  <h2><span class="num">2</span>拿起放大镜，一层一层看</h2>
+  <p>点一点放大镜（或者按“再放大”），我们一层一层钻进壁虎的脚里去！</p>
+  <div class="steps" id="zsteps"></div>
+  <div class="zoomzone">
+    <div class="lens-wrap">
+      <div class="handle"></div>
+      <div class="lens" id="lens" role="button" tabindex="0" aria-label="点击放大">
+        <svg viewBox="0 0 300 300" id="lensSvg">
+          <defs>
+            <linearGradient id="padG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6e388"/><stop offset="1" stop-color="#7ccf4a"/></linearGradient>
+          </defs>
+          <!-- 第1层：壁虎脚 -->
+          <g class="lvl" id="lv0">
+            <rect width="300" height="300" fill="#f6e3c6"/>
+            <path d="M0 75H300M0 150H300M0 225H300M150 0V75M75 75V150M225 75V150M150 150V225M75 225V300M225 225V300" stroke="#e8cfa8" stroke-width="4"/>
+            <path d="M130 300 C125 250 120 220 150 205 C180 220 175 250 170 300Z" fill="#7ccf4a" stroke="#4f9e2a" stroke-width="3"/>
+            <g id="footToes"></g>
+            <circle cx="150" cy="118" r="34" fill="none" stroke="#ff4d79" stroke-width="3" stroke-dasharray="6 5" class="pulse"/>
+            <text x="150" y="70" text-anchor="middle" font-size="15" font-weight="700" fill="#d6336c">点我放大</text>
+          </g>
+          <!-- 第2层：脚趾褶皱 -->
+          <g class="lvl" id="lv1">
+            <rect width="300" height="300" fill="#eaf7dc"/>
+            <path d="M80 300 V110 Q80 30 150 30 Q220 30 220 110 V300Z" fill="url(#padG)" stroke="#4f9e2a" stroke-width="4"/>
+            <g id="lamellae" fill="none" stroke="#3f8a1f" stroke-width="5" stroke-linecap="round"></g>
+            <ellipse cx="150" cy="168" rx="80" ry="22" fill="none" stroke="#ff4d79" stroke-width="3" stroke-dasharray="6 5" class="pulse"/>
+            <rect x="82" y="248" width="136" height="26" rx="13" fill="#fff" opacity=".92"/>
+            <text x="150" y="266" text-anchor="middle" font-size="15" font-weight="700" fill="#2b3445">一条一条的“褶皱”</text>
+          </g>
+          <!-- 第3层：刚毛 -->
+          <g class="lvl" id="lv2">
+            <rect width="300" height="300" fill="#f4fbff"/>
+            <rect x="0" y="0" width="300" height="60" fill="#7ccf4a"/>
+            <rect x="0" y="250" width="300" height="50" fill="#ced4da"/>
+            <g id="setaeForest" fill="none" stroke="#4f9e2a" stroke-width="3" stroke-linecap="round"></g>
+            <rect x="132" y="56" width="40" height="200" rx="18" fill="none" stroke="#ff4d79" stroke-width="3" stroke-dasharray="6 5" class="pulse"/>
+            <text x="150" y="38" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">褶皱上的“刚毛”森林</text>
+            <text x="150" y="268" text-anchor="middle" font-size="14" font-weight="700" fill="#495057">墙面</text>
+          </g>
+          <!-- 第4层：分叉绒毛贴墙 -->
+          <g class="lvl" id="lv3">
+            <rect width="300" height="300" fill="#fffdf2"/>
+            <rect x="0" y="246" width="300" height="54" fill="#ced4da"/>
+            <g id="spatulae"></g>
+            <text x="150" y="268" text-anchor="middle" font-size="14" font-weight="700" fill="#495057">墙面（放大了很多很多倍）</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="zoominfo">
+      <span class="times" id="ztimes"></span>
+      <h3 id="ztitle"></h3>
+      <p id="ztext"></p>
+      <div class="btnrow">
+        <button class="btn gray" id="zout">缩小</button>
+        <button class="btn" id="zin">再放大</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span class="num">3</span>一根小毛，力气有多大？</h2>
+  <div class="say">绒毛紧紧贴着墙的时候，会产生一种特别特别小的吸引力，科学家叫它<b>“范德华力”</b>。一根绒毛的力气小得几乎感觉不到，可是<b>几百万根一起用力</b>，就能拉住整只壁虎！</div>
+  <p>就好像有<b>几百万只小手</b>，每只都轻轻地拉住墙。拖动下面的滑块，给壁虎加绒毛，看看它能不能倒挂在天花板上！</p>
+  <div class="hangzone">
+    <div class="ceiling-scene">
+      <div class="ceiling"></div><span class="lbl">天花板</span>
+      <div id="hangGecko"></div>
+      <div class="cushion"></div>
+      <div class="status" id="hangStatus"></div>
+    </div>
+    <div>
+      <label for="hairs">贴住墙的绒毛数量：</label>
+      <div class="big" id="hairNum">0 根</div>
+      <input type="range" id="hairs" min="0" max="100" value="35" aria-label="绒毛数量">
+      <div class="meter"><div class="fill" id="meterFill"></div><div class="line" id="meterLine"></div></div>
+      <div class="meter-l"><span>能拉住：<b id="holdG">0</b> 克</span><span style="color:#e03131">红线 = 壁虎体重 50 克</span></div>
+      <div class="presets">
+        <button data-v="0">一根也没有</button>
+        <button data-v="30">100 根</button>
+        <button data-v="60">1 万根</button>
+        <button data-v="96">约 270 万根</button>
+        <button data-v="100">500 万根</button>
+      </div>
+      <p class="note">（为了好玩，数字是简化过的：我们假设每根绒毛能拉住 0.00002 克，比一粒灰尘还轻。）</p>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span class="num">4</span>粘得这么牢，怎么松开？</h2>
+  <p>贴得这么紧，壁虎怎么抬脚呢？它有个小妙招：<b>脚趾从趾尖开始往回卷</b>，像我们<b>撕胶带</b>一样，一点一点地撕下来，绒毛就一排一排轻松松开了。所以壁虎可以“嗒嗒嗒”跑得飞快！</p>
+  <svg class="toe-svg" viewBox="0 0 400 210" id="toeSvg" aria-label="脚趾卷起松开的动画">
+    <rect x="0" y="160" width="400" height="50" fill="#ced4da"/>
+    <text x="390" y="198" text-anchor="end" font-size="14" fill="#495057" font-weight="700">墙面</text>
+    <path d="M0 95 Q30 70 60 112 L60 158 L0 158Z" fill="#7ccf4a" stroke="#4f9e2a" stroke-width="3"/>
+    <text x="8" y="60" font-size="14" fill="#4f9e2a" font-weight="700">壁虎的脚</text>
+    <g id="toeChain"></g>
+    <text id="toeLabel" x="200" y="34" text-anchor="middle" font-size="17" font-weight="800" fill="#d6336c">贴住啦：绒毛全都拉着墙</text>
+  </svg>
+  <div class="btnrow" style="justify-content:center">
+    <button class="btn orange" id="peelBtn">卷起脚趾，松开！</button>
+    <button class="btn" id="stickBtn">放下脚趾，贴上！</button>
+    <button class="btn gray" id="loopBtn">自动播放</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span class="num">5</span>科学家也在学壁虎</h2>
+  <div class="apply">
+    <div class="a1">
+      <h3>“壁虎胶带”</h3>
+      <p>科学家模仿壁虎的脚，做出了表面长满超细小毛毛的<b>“壁虎胶带”</b>。它不用胶水，能贴、能撕，还能反复使用。人们想用它做会爬墙的机器人、太空里抓东西的机械手，还有不伤皮肤的创可贴。</p>
+      <p>这种跟大自然学本领的办法，叫做<b>“仿生”</b>。</p>
+    </div>
+    <div class="a2">
+      <h3>在家做个小实验：拉不开的两本书</h3>
+      <svg class="books" viewBox="0 0 300 120" aria-label="两本书书页交叉叠放">
+        <g id="bookL"><rect x="20" y="30" width="100" height="70" rx="6" fill="#4dabf7"/><rect x="26" y="36" width="88" height="58" fill="#e7f5ff"/></g>
+        <g id="bookR"><rect x="180" y="30" width="100" height="70" rx="6" fill="#ff8787"/><rect x="186" y="36" width="88" height="58" fill="#fff5f5"/></g>
+        <g stroke-width="2.4">
+          <path d="M114 40H186M114 50H186M114 60H186M114 70H186M114 80H186M114 90H186" stroke="#74c0fc"/>
+          <path d="M114 45H186M114 55H186M114 65H186M114 75H186M114 85H186" stroke="#ffa8a8"/>
+        </g>
+        <path d="M10 65H-0M8 58l-8 7 8 7" stroke="#495057" stroke-width="3" fill="none" transform="translate(4 0)"/>
+        <path d="M290 65H300M292 58l8 7-8 7" stroke="#495057" stroke-width="3" fill="none" transform="translate(-4 0)"/>
+        <text x="150" y="20" text-anchor="middle" font-size="14" font-weight="700" fill="#495057">一页压一页，交叉叠起来</text>
+      </svg>
+      <ol class="steps-list">
+        <li>找两本差不多厚的书，书脊朝外，面对面放好。</li>
+        <li>一页一页交替叠在一起，像两把梳子插在一起，叠得越多越好。</li>
+        <li>抓住两本书的书脊，用力往两边拉——是不是很难拉开？</li>
+      </ol>
+      <p>每一页之间只有一点点摩擦力，可是几百页加起来，力气就特别大。这和壁虎的绒毛是一个道理：<b>很多很多小力，加起来就变成大力！</b></p>
+      <p class="note">小提示：请爸爸妈妈帮忙，用旧书试，别把书页拉坏哦。</p>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="quiz">
+  <h2><span class="num">6</span>小问答：考考你！</h2>
+  <div id="quizBox"></div>
+  <div class="score" id="score"></div>
+</section>
+
+<footer>家庭小课堂 · 壁虎为什么可以爬墙</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent){
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  /* ---------- 壁虎（俯视，头朝上） ---------- */
+  function legMarkup(x, y, dir, side, cls){
+    // dir: 1 前腿 / -1 后腿；side: -1 左 / 1 右
+    var fx = side * 26, fy = -dir * 12;
+    var toes = "";
+    for (var i = 0; i < 5; i++){
+      var a = (-60 + i * 30) * Math.PI / 180;
+      var base = Math.atan2(fy, fx);
+      var ang = base + a * 0.9;
+      var tx = fx + Math.cos(ang) * 11, ty = fy + Math.sin(ang) * 11;
+      toes += '<line x1="'+fx+'" y1="'+fy+'" x2="'+tx.toFixed(1)+'" y2="'+ty.toFixed(1)+'" stroke="#4f9e2a" stroke-width="3" stroke-linecap="round"/>'+
+              '<circle cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" r="3.4" fill="#a9e27a" stroke="#4f9e2a" stroke-width="1.4"/>';
+    }
+    return '<g transform="translate('+x+' '+y+')"><g class="leg '+cls+'">'+
+      '<path d="M0 0 Q'+(fx*0.5)+' '+(fy*0.2 - dir*4)+' '+fx+' '+fy+'" stroke="#6bbf3a" stroke-width="7" fill="none" stroke-linecap="round"/>'+
+      toes + '</g></g>';
+  }
+  function geckoMarkup(){
+    return '' +
+      '<g class="wig">' +
+      '<path d="M-7 28 Q-14 62 2 82 Q14 96 0 104 Q24 94 12 66 Q6 44 7 28Z" fill="#7ccf4a" stroke="#4f9e2a" stroke-width="2.5"/>' +
+      '</g>' +
+      legMarkup(-9, -16, 1, -1, "legA") + legMarkup(9, -16, 1, 1, "legB") +
+      legMarkup(-9, 22, -1, -1, "legB") + legMarkup(9, 22, -1, 1, "legA") +
+      '<ellipse cx="0" cy="3" rx="15" ry="32" fill="#7ccf4a" stroke="#4f9e2a" stroke-width="2.5"/>' +
+      '<g fill="#5fb032"><circle cx="-5" cy="-6" r="2.6"/><circle cx="6" cy="2" r="2.2"/><circle cx="-4" cy="14" r="2.4"/><circle cx="5" cy="20" r="2"/></g>' +
+      '<ellipse cx="0" cy="-38" rx="14" ry="16" fill="#86d656" stroke="#4f9e2a" stroke-width="2.5"/>' +
+      '<g class="blink" style="transform-origin:0px -44px"><circle cx="-8" cy="-44" r="5" fill="#2b3445"/><circle cx="8" cy="-44" r="5" fill="#2b3445"/>' +
+      '<circle cx="-6.5" cy="-45.5" r="1.7" fill="#fff"/><circle cx="9.5" cy="-45.5" r="1.7" fill="#fff"/></g>' +
+      '<path d="M-5 -30 Q0 -26 5 -30" stroke="#2b3445" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
+      '<g fill="#ff8fab" opacity=".7"><circle cx="-10" cy="-34" r="2.6"/><circle cx="10" cy="-34" r="2.6"/></g>';
+  }
+  document.getElementById("heroGecko").innerHTML = geckoMarkup();
+  document.getElementById("hangGecko").innerHTML =
+    '<svg viewBox="-60 -60 120 170" width="120" height="170"><g id="hangInner">' + geckoMarkup() + '</g></svg>';
+
+  /* ---------- 放大镜 ---------- */
+  // 第1层：五个脚趾
+  var ft = document.getElementById("footToes");
+  var toeAngles = [-62, -32, 0, 32, 62];
+  toeAngles.forEach(function(a, i){
+    var g = el("g", {transform: "translate(150 215) rotate(" + a + ")"}, ft);
+    var len = i === 2 ? 120 : 100;
+    el("rect", {x: -9, y: -len + 20, width: 18, height: len - 20, rx: 9, fill: "#7ccf4a", stroke: "#4f9e2a", "stroke-width": 3}, g);
+    el("ellipse", {cx: 0, cy: -len + 22, rx: 22, ry: 26, fill: "url(#padG)", stroke: "#4f9e2a", "stroke-width": 3}, g);
+    for (var k = 0; k < 5; k++){
+      var yy = -len + 8 + k * 7;
+      el("path", {d: "M-16 " + yy + " Q0 " + (yy + 5) + " 16 " + yy, stroke: "#3f8a1f", "stroke-width": 2.2, fill: "none", "stroke-linecap": "round"}, g);
+    }
+  });
+  // 第2层：褶皱
+  var lam = document.getElementById("lamellae");
+  for (var j = 0; j < 9; j++){
+    var y = 70 + j * 24;
+    el("path", {d: "M92 " + y + " Q150 " + (y + 18) + " 208 " + y}, lam);
+  }
+  // 第3层：刚毛森林
+  var forest = document.getElementById("setaeForest");
+  for (var s = 0; s < 34; s++){
+    var x0 = 6 + s * 8.8 + (s % 2) * 2;
+    var bend = (s % 3 - 1) * 6;
+    el("path", {d: "M" + x0 + " 60 Q" + (x0 + bend + 8) + " 160 " + (x0 + 10) + " 238 l-4 8 M" + (x0 + 10) + " 238 l4 8 M" + (x0+10) + " 238 v8"}, forest);
+  }
+  // 第4层：一根刚毛分叉成很多绒毛
+  var sp = document.getElementById("spatulae");
+  el("path", {d: "M140 0 Q146 60 150 120 L156 120 Q154 60 160 0Z", fill: "#7ccf4a", stroke: "#4f9e2a", "stroke-width": 2}, sp);
+  el("text", {x: 172, y: 40, "font-size": 15, "font-weight": 700, fill: "#4f9e2a"}, sp).textContent = "一根刚毛";
+  var branches = [-90, -45, 0, 45, 90];
+  var contacts = [];
+  branches.forEach(function(bx){
+    var mx = 153 + bx * 0.6, my = 175;
+    el("path", {d: "M153 118 Q" + (153 + bx * 0.2) + " 150 " + mx + " " + my, stroke: "#4f9e2a", "stroke-width": 3, fill: "none", "stroke-linecap": "round"}, sp);
+    for (var t = -3; t <= 3; t++){
+      var ex = mx + t * 6.5 + bx * 0.15, ey = 242;
+      el("path", {d: "M" + mx + " " + my + " Q" + (mx + t * 2) + " 210 " + ex + " " + ey, stroke: "#5fb032", "stroke-width": 1.2, fill: "none"}, sp);
+      el("path", {d: "M" + (ex - 3) + " 246 L" + (ex + 3) + " 246 L" + ex + " " + (ey - 3) + "Z", fill: "#2f9e44"}, sp);
+      contacts.push(ex);
+    }
+  });
+  contacts.forEach(function(cx, i){
+    if (i % 3) return;
+    var c = el("circle", {cx: cx, cy: 248, r: 3.2, fill: "#ffd43b", class: "spark"}, sp);
+    c.style.animationDelay = (i * 0.07).toFixed(2) + "s";
+  });
+  el("rect", {x: 8, y: 120, width: 120, height: 48, rx: 10, fill: "#fff", stroke: "#ff4d79", "stroke-width": 2}, sp);
+  var tx1 = el("text", {x: 68, y: 140, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: "#d6336c"}, sp);
+  tx1.textContent = "黄点：范德华力";
+  var tx2 = el("text", {x: 68, y: 158, "text-anchor": "middle", "font-size": 12, fill: "#495057"}, sp);
+  tx2.textContent = "小手轻轻拉住墙";
+
+  var levels = [
+    {name: "壁虎的脚", times: "原来的样子", title: "第一层：壁虎的脚",
+     text: "壁虎每只脚有 5 个脚趾，脚趾底下胖胖的，像小肉垫。仔细看，上面有一道一道的花纹。"},
+    {name: "脚趾褶皱", times: "放大约 10 倍", title: "第二层：脚趾上的褶皱",
+     text: "放大一点看，脚趾底下是一条一条的“褶皱”，像叠起来的小台阶，又像百叶窗。"},
+    {name: "刚毛", times: "放大约 1000 倍", title: "第三层：密密麻麻的刚毛",
+     text: "再放大！每条褶皱上都长满了细细的“刚毛”，像一片小草地。一只壁虎的脚上，一共有几百万根刚毛！"},
+    {name: "分叉的绒毛", times: "放大约 10 万倍", title: "第四层：分叉的绒毛贴住墙",
+     text: "每根刚毛的末端，又分叉成几百根更细的“绒毛”，比头发还细几千倍！它们的小扁头紧紧贴着墙面，一起轻轻拉住墙。"}
+  ];
+  var cur = 0;
+  var stepsBox = document.getElementById("zsteps");
+  levels.forEach(function(l, i){
+    var b = document.createElement("button");
+    b.textContent = (i + 1) + ". " + l.name;
+    b.addEventListener("click", function(){ show(i); });
+    stepsBox.appendChild(b);
+  });
+  function show(i){
+    var back = i < cur;
+    cur = Math.max(0, Math.min(levels.length - 1, i));
+    for (var k = 0; k < levels.length; k++){
+      var g = document.getElementById("lv" + k);
+      g.classList.remove("on", "back");
+      if (k === cur){ void g.getBoundingClientRect(); g.classList.add("on"); if (back) g.classList.add("back"); }
+      stepsBox.children[k].classList.toggle("on", k === cur);
+    }
+    var l = levels[cur];
+    document.getElementById("ztimes").textContent = l.times;
+    document.getElementById("ztitle").textContent = l.title;
+    document.getElementById("ztext").textContent = l.text;
+    document.getElementById("zin").disabled = cur === levels.length - 1;
+    document.getElementById("zout").disabled = cur === 0;
+    document.getElementById("lens").style.cursor = cur === levels.length - 1 ? "zoom-out" : "zoom-in";
+  }
+  var lens = document.getElementById("lens");
+  function lensClick(){ show(cur === levels.length - 1 ? 0 : cur + 1); }
+  lens.addEventListener("click", lensClick);
+  lens.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); lensClick(); } });
+  document.getElementById("zin").addEventListener("click", function(){ show(cur + 1); });
+  document.getElementById("zout").addEventListener("click", function(){ show(cur - 1); });
+  show(0);
+
+  /* ---------- 滑块：绒毛越多，拉力越大 ---------- */
+  var MAXN = 5000000, PER = 0.00002, WEIGHT = 50, MAXG = MAXN * PER;
+  var slider = document.getElementById("hairs");
+  var hang = document.getElementById("hangGecko");
+  var lastState = "";
+  function fmt(n){
+    if (n >= 10000) return (n / 10000).toFixed(n >= 1e6 ? 0 : 1).replace(/\.0$/, "") + " 万";
+    return String(n);
+  }
+  function vToN(v){ return v <= 0 ? 0 : Math.round(Math.pow(10, v / 100 * Math.log10(MAXN))); }
+  function update(){
+    var n = vToN(+slider.value);
+    var g = n * PER;
+    document.getElementById("hairNum").textContent = fmt(n) + " 根";
+    var gs = g >= 1 ? g.toFixed(1) : (g === 0 ? "0" : g.toPrecision(2));
+    document.getElementById("holdG").textContent = gs;
+    var pct = Math.min(100, Math.sqrt(g / MAXG) * 100);
+    document.getElementById("meterFill").style.width = pct + "%";
+    document.getElementById("meterLine").style.left = (Math.sqrt(WEIGHT / MAXG) * 100) + "%";
+    var state = g >= WEIGHT ? "hold" : (g >= WEIGHT * 0.5 ? "shaky" : "fall");
+    var st = document.getElementById("hangStatus");
+    if (state === "hold"){ st.textContent = "挂住啦！稳稳的！"; st.style.color = "#2b8a3e"; }
+    else if (state === "shaky"){ st.textContent = "快撑不住了，再加点！"; st.style.color = "#e8590c"; }
+    else { st.textContent = n === 0 ? "没有绒毛，掉下去啦！" : "太少了，掉下去啦！"; st.style.color = "#e03131"; }
+    if (state !== lastState){
+      hang.className = "";
+      void hang.offsetWidth;
+      hang.className = state;
+      lastState = state;
+    }
+  }
+  slider.addEventListener("input", update);
+  document.querySelectorAll(".presets button").forEach(function(b){
+    b.addEventListener("click", function(){ slider.value = b.dataset.v; update(); });
+  });
+  update();
+
+  /* ---------- 脚趾卷起 ---------- */
+  var chain = document.getElementById("toeChain");
+  var SEG = 4, L = 70, X0 = 60, Y = 158;
+  var joints = [], hairsBySeg = [];
+  var parent = chain;
+  for (var si = 0; si < SEG; si++){
+    var jx = X0 + si * L;
+    var g = el("g", {}, parent);
+    joints.push({g: g, x: jx});
+    var segHairs = [];
+    for (var h = 0; h < 9; h++){
+      var hx = jx + 5 + h * 7.5;
+      segHairs.push(el("line", {x1: hx, y1: Y - 2, x2: hx, y2: Y + 2, stroke: "#2f9e44", "stroke-width": 2.2, "stroke-linecap": "round"}, g));
+    }
+    hairsBySeg.push(segHairs);
+    var w = si === SEG - 1 ? L - 6 : L + 2;
+    el("rect", {x: jx, y: Y - 30, width: w, height: 28, rx: si === SEG - 1 ? 14 : 6, fill: si % 2 ? "#86d656" : "#7ccf4a", stroke: "#4f9e2a", "stroke-width": 2.5}, g);
+    for (var lm = 0; lm < 3; lm++) el("line", {x1: jx + 12 + lm * 20, y1: Y - 5, x2: jx + 20 + lm * 20, y2: Y - 5, stroke: "#3f8a1f", "stroke-width": 2, "stroke-linecap": "round"}, g);
+    parent = g;
+  }
+  var p = 0, target = 0, looping = false, raf = null;
+  function clamp(v){ return Math.max(0, Math.min(1, v)); }
+  function drawToe(){
+    for (var i = 0; i < SEG; i++){
+      var fromTip = SEG - 1 - i;
+      var local = clamp(p * SEG - fromTip);
+      var ang = -32 * local * (i === 0 ? 0.6 : 1);
+      joints[i].g.setAttribute("transform", "rotate(" + ang.toFixed(2) + " " + joints[i].x + " " + Y + ")");
+      hairsBySeg[i].forEach(function(hl){ hl.setAttribute("stroke", local > 0.05 ? "#adb5bd" : "#2f9e44"); });
+    }
+    var lbl = document.getElementById("toeLabel");
+    if (p < 0.02) lbl.textContent = "贴住啦：绒毛全都拉着墙";
+    else if (p > 0.98) lbl.textContent = "松开啦！可以抬脚跑了";
+    else lbl.textContent = "从趾尖往回卷，像撕胶带……";
+  }
+  function tick(){
+    var speed = 0.018;
+    if (Math.abs(target - p) > speed) p += target > p ? speed : -speed; else p = target;
+    drawToe();
+    if (p === target && looping){
+      target = target ? 0 : 1;
+      setTimeout(function(){ raf = requestAnimationFrame(tick); }, 700);
+      return;
+    }
+    if (p !== target) raf = requestAnimationFrame(tick); else raf = null;
+  }
+  function go(t){ target = t; if (!raf) raf = requestAnimationFrame(tick); }
+  document.getElementById("peelBtn").addEventListener("click", function(){ looping = false; setLoopBtn(); go(1); });
+  document.getElementById("stickBtn").addEventListener("click", function(){ looping = false; setLoopBtn(); go(0); });
+  var loopBtn = document.getElementById("loopBtn");
+  function setLoopBtn(){ loopBtn.textContent = looping ? "停止播放" : "自动播放"; }
+  loopBtn.addEventListener("click", function(){
+    looping = !looping; setLoopBtn();
+    if (looping){ go(p > 0.5 ? 0 : 1); }
+  });
+  drawToe();
+
+  /* ---------- 小问答 ---------- */
+  var quiz = [
+    {q: "1. 壁虎是靠什么贴在墙上的？", o: ["脚上的胶水", "脚上的吸盘", "脚趾上几百万根细细的毛"], a: 2,
+     ok: "答对啦！就是这些超级细的刚毛和绒毛。", no: "再想想：壁虎的脚不黏，也不是吸盘哦。"},
+    {q: "2. 一根绒毛产生的拉力大不大？", o: ["很大，一根就能拉住壁虎", "很小很小，但几百万根加起来就很大"], a: 1,
+     ok: "真棒！很多小力加起来，就变成了大力。", no: "不对哦，一根绒毛的力气小得几乎感觉不到。"},
+    {q: "3. 壁虎是怎么把脚松开的？", o: ["使劲往外拔", "等胶水干了再走", "脚趾从趾尖往回卷，像撕胶带"], a: 2,
+     ok: "完全正确！一点一点卷起来，就轻松松开了。", no: "再想想撕胶带的样子：从一头慢慢卷起来。"}
+  ];
+  var box = document.getElementById("quizBox");
+  var done = {}, rightCount = 0;
+  quiz.forEach(function(item, qi){
+    var d = document.createElement("div"); d.className = "q";
+    var p = document.createElement("p"); p.textContent = item.q; d.appendChild(p);
+    var opts = document.createElement("div"); opts.className = "opts"; d.appendChild(opts);
+    var fb = document.createElement("div"); fb.className = "fb";
+    item.o.forEach(function(text, oi){
+      var b = document.createElement("button"); b.className = "opt"; b.type = "button";
+      b.textContent = String.fromCharCode(65 + oi) + ". " + text;
+      b.addEventListener("click", function(){
+        opts.querySelectorAll(".opt").forEach(function(x){ x.classList.remove("wrong"); });
+        if (oi === item.a){
+          b.classList.add("right"); fb.textContent = "对！" + item.ok; fb.className = "fb ok";
+          if (!done[qi]){ done[qi] = true; rightCount++; }
+        } else {
+          void b.offsetWidth; b.classList.add("wrong"); fb.textContent = "错啦，" + item.no; fb.className = "fb no";
+        }
+        var sc = document.getElementById("score");
+        sc.textContent = rightCount === quiz.length ? "三题全对！你是小小科学家！" : "已答对 " + rightCount + " / " + quiz.length + " 题";
+      });
+      opts.appendChild(b);
+    });
+    d.appendChild(fb);
+    box.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
